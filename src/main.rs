@@ -27,9 +27,11 @@ fn main() {
     while ch != 27 {
         match ch {
             KEY_RESIZE => {
-                view.input(27);            
+                view.update();
             },
-            _ => view.input(ch),
+            _ => {
+                view.input(ch);
+            },
         }
         ch = getch();
     }

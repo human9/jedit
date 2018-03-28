@@ -116,10 +116,11 @@ impl Buffer {
 					self.pos.0 = 0;
 				}
 			},
-			_ => {
+			32 ... 126 => {
 				self.lines.get_mut(self.pos.1).unwrap().insert(self.pos.0, ch as u8 as char); // push character to the last line
 				self.pos.0 += 1;
 			},
+			_ => (), //don't know
 		}
 		Ok(())
 

@@ -8,6 +8,7 @@ use std::fs::File;
 pub struct Buffer {
 	pub lines: Vec<String>, // each string in the vec is a line in the buffer
 	pub pos: (usize, usize), // cursor position in the buffer
+	pub scroll: usize, // top line we are scrolled to
 }
 
 impl Buffer {
@@ -18,6 +19,7 @@ impl Buffer {
 		Buffer {
 			lines,
 			pos: (0,0),
+			scroll: 0,
 		}
 	}
 

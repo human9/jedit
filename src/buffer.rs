@@ -4,6 +4,7 @@ use ncurses::*;
 use std::error::Error;
 use std::io::prelude::*;
 use std::fs::File;
+use std::io::BufReader;
 
 pub struct Buffer {
 	pub lines: Vec<String>, // each string in the vec is a line in the buffer
@@ -13,8 +14,12 @@ pub struct Buffer {
 
 impl Buffer {
 
-	pub fn new() -> Self {
+	pub fn new(file: File) -> Self {
+		let reader = BufReader::new(&file);
 		let mut lines = Vec::new();
+		for line in reader.lines() {
+			lines.push(line.unwrap());
+		}
 		lines.push(String::new());
 		Buffer {
 			lines,

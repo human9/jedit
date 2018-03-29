@@ -1,12 +1,20 @@
 extern crate ncurses;
 use ncurses::*;
+use std::env;
+use std::fs::File;
+use buffer::Buffer;
 
 mod buffer;
 mod view;
 
 fn main() {
 
-    std::env::set_var("ESCDELAY", "25");
+    env::set_var("ESCDELAY", "25");
+    let mut args = env::args();
+    args.next(); // consume first
+    let file = File::open(args.next().unwrap()).unwrap();
+    let buf = Buffer::new(file);
+
     initscr();
     use_default_colors();
     start_color();
@@ -19,10 +27,11 @@ fn main() {
     init_pair(1, -1, -1);
 
     let mut view = view::View {
-        buf: buffer::Buffer::new(),
+        buf,
         win: stdscr(),
     };
 
+    view.update();
     let mut ch = getch();
     while ch != 27 {
         match ch {
